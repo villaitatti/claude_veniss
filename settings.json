@@ -1,0 +1,55 @@
+{
+  "_comment": "DEV profile. Local machine, talks to prod Blazegraph via MCP. SPARQL only.",
+  "permissions": {
+    "allow": [
+      "Read",
+      "Grep",
+      "Glob",
+      "Bash(pwd)",
+      "Bash(ls*)",
+      "Bash(find*)",
+      "Bash(head*)",
+      "Bash(tail*)",
+      "Bash(cat*)",
+      "Bash(wc*)",
+      "Bash(git status)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git branch*)",
+      "Bash(git show*)",
+      "Bash(git remote -v)",
+      "mcp__sparql__query",
+      "mcp__sparql__select",
+      "mcp__sparql__ask",
+      "mcp__sparql__construct",
+      "mcp__sparql__describe"
+    ],
+    "ask": [
+      "Edit",
+      "Write",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git checkout*)",
+      "Bash(git merge*)",
+      "Bash(git stash*)",
+      "Bash(gh pr*)",
+      "Bash(python*)",
+      "Bash(python3*)",
+      "mcp__sparql__update"
+    ],
+    "deny": [
+      "Bash(git push*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean*)",
+      "Bash(rm -rf*)",
+      "Bash(curl*sparql*)",
+      "Bash(curl*INSERT*)",
+      "Bash(curl*DELETE*)",
+      "Bash(psql*)",
+      "Bash(*field-definitions/*.trig*)"
+    ]
+  },
+  "autoCommit": false,
+  "autoPush": false,
+  "defaultMode": "ask"
+}

@@ -1,0 +1,12 @@
+{
+  "_comment": "Edit on each machine to reflect actual layout. Skills resolve paths from here.",
+  "veniss_app": "apps/VeNiss",
+  "rs_source": "researchspace",
+  "query_vault": "queries",
+  "audit_log_dir": "docs/audit",
+  "rs_notes_dir": "docs/researchspace",
+  "_optional": {
+    "_note": "If a path is absent on this machine, set it to null. Skills will degrade gracefully.",
+    "rs_source_optional": true
+  }
+}

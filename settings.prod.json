@@ -1,0 +1,57 @@
+{
+  "_comment": "PROD profile. On production server. Read-only by default.",
+  "permissions": {
+    "allow": [
+      "Read",
+      "Grep",
+      "Glob",
+      "Bash(pwd)",
+      "Bash(ls*)",
+      "Bash(find*)",
+      "Bash(head*)",
+      "Bash(tail*)",
+      "Bash(cat*)",
+      "Bash(wc*)",
+      "Bash(git status)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git branch*)",
+      "Bash(git show*)",
+      "Bash(git pull*)",
+      "Bash(systemctl status*)",
+      "Bash(docker ps*)",
+      "Bash(docker logs*)",
+      "mcp__sparql__select",
+      "mcp__sparql__ask",
+      "mcp__sparql__construct",
+      "mcp__sparql__describe"
+    ],
+    "ask": [
+      "Read",
+      "mcp__sparql__query"
+    ],
+    "deny": [
+      "Edit",
+      "Write",
+      "Bash(git push*)",
+      "Bash(git commit*)",
+      "Bash(git add*)",
+      "Bash(git reset*)",
+      "Bash(git clean*)",
+      "Bash(git checkout*)",
+      "Bash(git merge*)",
+      "Bash(rm -rf*)",
+      "Bash(curl*sparql*)",
+      "Bash(psql*)",
+      "Bash(docker stop*)",
+      "Bash(docker rm*)",
+      "Bash(systemctl restart*)",
+      "Bash(systemctl stop*)",
+      "Bash(*field-definitions/*.trig*)",
+      "mcp__sparql__update"
+    ]
+  },
+  "autoCommit": false,
+  "autoPush": false,
+  "defaultMode": "ask"
+}
