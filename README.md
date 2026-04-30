@@ -6,7 +6,7 @@ Create .env file from
 # The MCP server reads these. Claude references variable NAMES only.
 
 # Production Blazegraph SPARQL endpoint
-VENISS_SPARQL_ENDPOINT=https://veniss.net/sparql
+VENISS_SPARQL_ENDPOINT=
 VENISS_SPARQL_USER=
 VENISS_SPARQL_PASS=
 
