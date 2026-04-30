@@ -1,0 +1,19 @@
+Create .env file from
+
+```
+# Copy to `.env` (workspace root) and fill in values.
+# `.env` is gitignored. Never commit.
+# The MCP server reads these. Claude references variable NAMES only.
+
+# Production Blazegraph SPARQL endpoint
+VENISS_SPARQL_ENDPOINT=https://veniss.net/sparql
+VENISS_SPARQL_USER=
+VENISS_SPARQL_PASS=
+
+# Optional: local RS dev instance
+VENISS_LOCAL_ENDPOINT=http://localhost:10214/sparql
+
+# Optional: container IRI overrides
+# VENISS_FIELDDEF_CONTAINER=http://localhost:10214/container/fieldDefinitionContainer
+# VENISS_RESOURCE_CONFIG_CONTAINER=http://www.researchspace.org/resource/system/resource_configurations_container                              
+```
