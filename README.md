@@ -8,16 +8,16 @@ The repo sits in its own folder inside the workspace. `setup.sh` symlinks its co
 <workspace>/                     ← workspace root: launch `claude` here (any name, any location)
 ├── claude_veniss/               ← this repo
 │   ├── CLAUDE.md                workspace rules for Claude
-│   ├── .mcp.json                SPARQL MCP server (Blazegraph)
+│   ├── .mcp.json                no MCP servers configured
 │   ├── .claude/
 │   │   ├── settings.json        shared permissions, sandbox, hooks (dev profile)
 │   │   ├── settings.prod.json   prod profile
 │   │   ├── hooks/guard.py       PreToolUse guard: keeps Claude inside the workspace folders
-│   │   ├── mcp-sparql/          MCP server source
 │   │   ├── skills/              sparql-query, template-edit, commit-pr, …
 │   │   └── agents/              config-auditor, rs-reference, template-locator
 │   ├── docs/                    team notes; docs/audit/ holds local SPARQL logs (gitignored)
 │   ├── queries/                 reusable SPARQL queries
+│   ├── scripts/sparql.py        SPARQL client for Blazegraph (reads .env)
 │   ├── veniss.code-workspace    editor workspace and Claude's scope
 │   └── setup.sh                 creates the root symlinks and .env
 ├── CLAUDE.md  -> claude_veniss/CLAUDE.md
@@ -31,7 +31,7 @@ The repo sits in its own folder inside the workspace. `setup.sh` symlinks its co
 
 ## Setup
 
-Requirements: [Claude Code](https://docs.claude.com/en/docs/claude-code), `python3` (hook), [`uv`](https://docs.astral.sh/uv/) (MCP server).
+Requirements: [Claude Code](https://docs.claude.com/en/docs/claude-code), `python3` (hook and `scripts/sparql.py`).
 
 ```sh
 mkdir <workspace> && cd <workspace>
@@ -52,7 +52,7 @@ The folder paths in `veniss.code-workspace` are relative. Keep the layout above,
 
 - **Editor:** open `claude_veniss/veniss.code-workspace` in VS Code or VSCodium. The `claude_veniss` folder is where you view and edit the config.
 - **Starting Claude:** use the task **Terminal → Run Task… → Claude Code (workspace root)**, or run `cd <workspace> && claude` in any terminal. Always start it from the root, never from a subfolder.
-- **Checking what's active:** `/memory` (CLAUDE.md files), `/permissions`, `/hooks`, `/sandbox` and `/mcp`.
+- **Checking what's active:** `/memory` (CLAUDE.md files), `/permissions`, `/hooks` and `/sandbox`.
 
 ## How confinement works
 
