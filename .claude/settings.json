@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "mcp__sparql__select",
+      "mcp__sparql__ask",
+      "mcp__sparql__construct",
+      "mcp__sparql__describe",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git branch *)",
+      "Bash(git -C * status)",
+      "Bash(git -C * diff *)",
+      "Bash(git -C * log *)"
+    ],
+    "ask": [
+      "mcp__sparql__update",
+      "mcp__sparql__query",
+      "Bash(git commit *)",
+      "Bash(git -C * commit *)",
+      "Bash(git merge *)",
+      "Bash(gh pr *)",
+      "Edit(/apps/VeNiss/config/repositories/**)",
+      "Edit(/apps/VeNiss/config/services/**)",
+      "Edit(/apps/VeNiss/config/ui.prop)"
+    ],
+    "deny": [
+      "Read(/\\[Deprecated\\]/**)",
+      "Edit(/\\[Deprecated\\]/**)",
+      "Read(/apps/map-uploader/**)",
+      "Edit(/apps/map-uploader/**)",
+      "Read(**/.env)",
+      "Edit(**/.env)",
+      "Read(**/data/field-definitions/*.trig)",
+      "Bash(git push *)",
+      "Bash(git -C * push *)",
+      "Bash(git reset --hard *)",
+      "Bash(git clean *)",
+      "Bash(rm -rf *)",
+      "Bash(psql *)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "allowUnsandboxedCommands": false,
+    "filesystem": {
+      "denyRead": [
+        "~/projects",
+        "~/Documents",
+        "~/Desktop",
+        "~/Downloads",
+        "./[Deprecated]",
+        "./apps/map-uploader",
+        "./.env"
+      ],
+      "allowRead": [
+        "."
+      ],
+      "denyWrite": [
+        "./[Deprecated]",
+        "./apps/map-uploader",
+        "./.env"
+      ]
+    }
+  },
+  "enabledMcpjsonServers": ["sparql"],
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Read|Edit|Write|MultiEdit|NotebookEdit|Grep|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/guard.py"
+          }
+        ]
+      }
+    ]
+  }
+}

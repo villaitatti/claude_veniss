@@ -1,0 +1,27 @@
+# claude_veniss — workspace-root config repo.
+# The workspace folders are independent git repos with their own .gitignore;
+# this repo never descends into them.
+
+# Subprojects (each manages its own git + .gitignore)
+/apps/
+/metapolis-xdtiler/
+/researchspace/
+
+# Archived material, not part of the workspace
+/\[Deprecated\]/
+
+# Credentials — never commit
+.env
+.env.local
+.env.*.local
+
+# Per-machine Claude overrides (e.g. prod profile copied here)
+.claude/settings.local.json
+
+# Claude session logs — local only
+docs/audit/*
+!docs/audit/.gitkeep
+
+# Python / OS noise
+__pycache__/
+.DS_Store

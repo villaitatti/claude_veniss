@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "_comment": "PROD profile. On the production server: cp .claude/settings.prod.json .claude/settings.local.json. Arrays merge with settings.json, so these denials stack on top of the dev profile.",
+  "permissions": {
+    "defaultMode": "default",
+    "allow": [
+      "Bash(git pull*)",
+      "Bash(systemctl status *)",
+      "Bash(docker ps*)",
+      "Bash(docker logs *)"
+    ],
+    "deny": [
+      "Edit",
+      "Write",
+      "Bash(git commit *)",
+      "Bash(git add *)",
+      "Bash(git reset *)",
+      "Bash(git checkout *)",
+      "Bash(git merge *)",
+      "Bash(docker stop *)",
+      "Bash(docker rm *)",
+      "Bash(systemctl restart *)",
+      "Bash(systemctl stop *)",
+      "mcp__sparql__update",
+      "mcp__sparql__query"
+    ]
+  }
+}

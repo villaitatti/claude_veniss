@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "sparql": {
+      "command": "uv",
+      "args": ["run", "--with", "mcp", ".claude/mcp-sparql/server.py"]
+    }
+  }
+}
