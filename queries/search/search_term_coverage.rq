@@ -1,0 +1,15 @@
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX vo: <https://veniss.net/ontology#>
+# Per class: entities, entities with >=1 search_term, entities with >1 search_term
+SELECT ?class (COUNT(DISTINCT ?s) AS ?entities) (COUNT(DISTINCT ?withSt) AS ?withSearchTerm) (SUM(?multi) AS ?withMultiple) WHERE {
+  VALUES ?class { vo:Source_Primary vo:Person vo:Group vo:Event }
+  ?s a ?class .
+  OPTIONAL {
+    SELECT ?s (COUNT(?st) AS ?n) WHERE {
+      ?s crm:P1_is_identified_by ?st . ?st crm:P2_has_type <https://veniss.net/resource/type/search_term> .
+    } GROUP BY ?s
+  }
+  BIND(IF(BOUND(?n), ?s, ?unbound) AS ?withSt)
+  BIND(IF(BOUND(?n) && ?n > 1, 1, 0) AS ?multi)
+} GROUP BY ?class

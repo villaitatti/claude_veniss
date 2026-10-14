@@ -1,0 +1,9 @@
+PREFIX rc: <http://www.researchspace.org/pattern/system/resource_configuration/>
+SELECT ?config ?name ?class ?type ?restriction ?labelPattern WHERE {
+  ?config rc:resource_ontology_class ?class .
+  OPTIONAL { ?config rc:resource_name ?name }
+  OPTIONAL { ?config rc:resource_type ?type }
+  OPTIONAL { ?config rc:resource_restriction_sparql_pattern ?restriction }
+  OPTIONAL { ?config rc:resource_label_sparql_pattern ?labelPattern }
+  FILTER(CONTAINS(STR(?class), "veniss"))
+}

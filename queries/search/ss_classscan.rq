@@ -1,0 +1,24 @@
+# RUNTIME search for Secondary Sources: title(s), broader title, authors, curator/publisher, place, year.
+# __TOKEN__ = RS lucene token ("certosa* 1564*"); in the template it is ?__token__.
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX crmpc: <http://www.cidoc-crm.org/crmpc/>
+PREFIX frbroo: <http://iflastandards.info/ns/fr/frbr/frbroo/>
+PREFIX vo: <https://veniss.net/ontology#>
+PREFIX vt: <https://veniss.net/resource/type/>
+SELECT ?subject WHERE {
+  { SELECT ?subject (GROUP_CONCAT(DISTINCT LCASE(STR(?label)); separator=" | ") AS ?hay) WHERE {
+      ?subject a vo:Source_Secondary .
+      { ?subject crm:P1_is_identified_by ?a . ?a rdfs:label ?label . FILTER NOT EXISTS { ?a crm:P2_has_type vt:search_term } }
+      UNION { ?subject rdfs:label ?label }
+      UNION { ?subject vo:has_broader ?br . ?br crm:P1_is_identified_by ?bt . ?bt crm:P2_has_type vt:title ; rdfs:label ?label }
+      UNION { ?subject crm:P129i_is_subject_of ?lo . ?lo crm:P94i_was_created_by ?cr . ?cr crm:P14_carried_out_by ?actor . ?actor rdfs:label ?label }
+      UNION { ?subject frbroo:R24i_was_created_through ?pe . ?pe crm:P01i_is_domain_of ?r . ?r crmpc:P02_has_range ?actor . ?actor rdfs:label ?label }
+      UNION { ?subject frbroo:R24i_was_created_through ?pe . ?pe crm:P7_took_place_at ?pl . ?pl rdfs:label ?label }
+      UNION { ?subject frbroo:R24i_was_created_through ?pe . ?pe crm:P4_has_time-span ?ts . ?ts crm:P82a_begin_of_the_begin ?label }
+    } GROUP BY ?subject }
+  # Tokenize like Lucene: anything not a letter/digit (Lucene escapes, '*', punctuation) splits words.
+  BIND(REPLACE(REPLACE(LCASE("__TOKEN__"), "[^\\p{L}\\p{N}]+", " "), "^ +| +$", "") AS ?words)
+  BIND(CONCAT("^(?=.*", REPLACE(?words, " +", ")(?=.*"), ")") AS ?re)
+  FILTER(REGEX(?hay, ?re, "s"))
+}

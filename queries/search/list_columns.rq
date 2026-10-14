@@ -1,0 +1,8 @@
+PREFIX rc: <http://www.researchspace.org/pattern/system/resource_configuration/>
+PREFIX col: <http://www.researchspace.org/pattern/system/resource_search_listView_column/>
+# List-view columns (what the UI shows) per VeNiss resource config
+SELECT ?config ?order ?title ?pattern WHERE {
+  ?config rc:resource_ontology_class ?class ; rc:resource_search_listView_column ?c .
+  FILTER(CONTAINS(STR(?class), "veniss"))
+  OPTIONAL { ?c col:order ?order } OPTIONAL { ?c col:title ?title } OPTIONAL { ?c col:content_sparql_pattern ?pattern }
+} ORDER BY ?config ?order

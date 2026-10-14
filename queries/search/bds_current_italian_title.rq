@@ -1,0 +1,13 @@
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+# Current mechanism (label pattern = search_term), typed "veduta volo uccello" -> token "veduta* volo* uccello*"
+SELECT (COUNT(DISTINCT ?subject) AS ?n) WHERE {
+  ?subject a <https://veniss.net/ontology#Source_Primary> ;
+           crm:P2_has_type <http://www.researchspace.org/resource/system/vocab/resource_type/Source_Primary> .
+  BIND(?subject AS ?item)
+  ?item crm:P1_is_identified_by ?search_term . ?search_term a crm:E41_Appellation ;
+        crm:P2_has_type <https://veniss.net/resource/type/search_term> ; rdfs:label ?label .
+  SERVICE <http://www.bigdata.com/rdf/search#search> {
+    ?label bds:search "veduta* volo* uccello*" ; bds:minRelevance "0.0" ; bds:matchAllTerms "true" . }
+}

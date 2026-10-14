@@ -1,0 +1,8 @@
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+# Risk 1: are year literals (xsd:string) in the text index?
+SELECT (COUNT(*) AS ?n) WHERE {
+  ?label bds:search "1564" ; bds:matchAllTerms "true" .
+  ?tp rdfs:label ?label ; crm:P2_has_type <https://veniss.net/resource/type/time_primitive_year> .
+}

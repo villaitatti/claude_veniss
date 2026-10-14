@@ -1,0 +1,10 @@
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX vo: <https://veniss.net/ontology#>
+# Distribution of search_term count per entity
+SELECT ?class ?n (COUNT(?s) AS ?entities) WHERE {
+  { SELECT ?class ?s (COUNT(DISTINCT ?st) AS ?n) WHERE {
+      VALUES ?class { vo:Source_Primary vo:Event }
+      ?s a ?class ; crm:P1_is_identified_by ?st .
+      ?st crm:P2_has_type <https://veniss.net/resource/type/search_term> .
+  } GROUP BY ?class ?s }
+} GROUP BY ?class ?n ORDER BY ?class ?n

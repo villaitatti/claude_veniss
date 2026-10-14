@@ -1,0 +1,7 @@
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX vo: <https://veniss.net/ontology#>
+SELECT ?s ?st ?l WHERE {
+  { SELECT ?s WHERE { ?s a vo:Source_Primary } LIMIT 2 }
+  ?s crm:P1_is_identified_by ?st . ?st crm:P2_has_type <https://veniss.net/resource/type/search_term> ; rdfs:label ?l .
+}

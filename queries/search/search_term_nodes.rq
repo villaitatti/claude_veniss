@@ -1,0 +1,6 @@
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+# All triples of every search_term node of one source
+SELECT ?st ?p ?o WHERE {
+  <https://veniss.net/resource/source/c1dee2e6-9679-11ed-bc19-3a5becfe4abd> crm:P1_is_identified_by ?st .
+  ?st crm:P2_has_type <https://veniss.net/resource/type/search_term> ; ?p ?o .
+}

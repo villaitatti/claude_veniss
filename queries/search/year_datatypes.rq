@@ -1,0 +1,7 @@
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+# How are year labels stored? (datatype / lang), with a sample
+SELECT ?dt ?lang (COUNT(*) AS ?n) (SAMPLE(?l) AS ?sample) WHERE {
+  ?tp crm:P2_has_type <https://veniss.net/resource/type/time_primitive_year> ; rdfs:label ?l .
+  BIND(DATATYPE(?l) AS ?dt) BIND(LANG(?l) AS ?lang)
+} GROUP BY ?dt ?lang

@@ -1,0 +1,11 @@
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX vo: <https://veniss.net/ontology#>
+# Per class: search_term nodes with/without label, entities with no labelled search_term
+SELECT ?class (COUNT(DISTINCT ?st) AS ?nodes) (COUNT(DISTINCT ?labelled) AS ?labelledNodes)
+       (COUNT(DISTINCT ?s) - COUNT(DISTINCT ?sWithLabel) AS ?entitiesUnsearchable) WHERE {
+  VALUES ?class { vo:Source_Primary vo:Person vo:Group vo:Event }
+  ?s a ?class ; crm:P1_is_identified_by ?st .
+  ?st crm:P2_has_type <https://veniss.net/resource/type/search_term> .
+  OPTIONAL { ?st rdfs:label ?l . BIND(?st AS ?labelled) BIND(?s AS ?sWithLabel) }
+} GROUP BY ?class

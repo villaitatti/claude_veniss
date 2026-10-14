@@ -1,0 +1,21 @@
+# RUNTIME search for Groups: every name appellation, label, formation/dissolution year.
+# __TOKEN__ = RS lucene token ("certosa* 1564*"); in the template it is ?__token__.
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX crmpc: <http://www.cidoc-crm.org/crmpc/>
+PREFIX frbroo: <http://iflastandards.info/ns/fr/frbr/frbroo/>
+PREFIX vo: <https://veniss.net/ontology#>
+PREFIX vt: <https://veniss.net/resource/type/>
+SELECT ?subject WHERE {
+  { SELECT ?subject (GROUP_CONCAT(DISTINCT LCASE(STR(?label)); separator=" | ") AS ?hay) WHERE {
+      ?subject a vo:Group ; crm:P2_has_type <http://www.researchspace.org/resource/system/vocab/resource_type/Group> .
+      { ?subject crm:P1_is_identified_by ?a . ?a rdfs:label ?label . FILTER NOT EXISTS { ?a crm:P2_has_type vt:search_term } }
+      UNION { ?subject rdfs:label ?label }
+      UNION { ?subject crm:P95i_was_formed_by|crm:P99i_dissolved_by ?ev . ?ev crm:P4_has_time-span ?ts . ?ts crm:P170i_time_is_defined_by ?tp .
+              ?tp crm:P2_has_type vt:time_primitive_year ; rdfs:label ?label }
+    } GROUP BY ?subject }
+  # Tokenize like Lucene: anything not a letter/digit (Lucene escapes, '*', punctuation) splits words.
+  BIND(REPLACE(REPLACE(LCASE("__TOKEN__"), "[^\\p{L}\\p{N}]+", " "), "^ +| +$", "") AS ?words)
+  BIND(CONCAT("^(?=.*", REPLACE(?words, " +", ")(?=.*"), ")") AS ?re)
+  FILTER(REGEX(?hay, ?re, "s"))
+}
