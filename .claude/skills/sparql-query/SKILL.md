@@ -18,8 +18,8 @@ description: Run SPARQL via the MCP server safely, with versioning and logging.
 
 ## Workflow
 1. State intent (one line).
-2. Check `queries/` for an existing query. Reuse if possible.
-3. Otherwise draft. If reusable → save to `queries/<name>.sparql`.
+2. Check `claude_veniss/queries/` for an existing query. Reuse if possible.
+3. Otherwise draft. If reusable → save to `claude_veniss/queries/<name>.sparql`.
 4. Call the appropriate MCP tool.
 5. Log via `audit-log` before reporting.
 6. Report: row count + ≤5 sample rows.

@@ -25,8 +25,13 @@ from mcp import types
 
 
 def _load_dotenv() -> None:
-    """Load .env from workspace root (two levels above .claude/mcp-sparql/) if vars not already set."""
-    env_path = Path(__file__).resolve().parent.parent.parent / ".env"
+    """Load .env from the workspace root if vars not already set.
+
+    .claude is a symlink into claude_veniss/, so don't resolve symlinks:
+    the root is two levels above the path we were launched with.
+    """
+    root = os.environ.get("CLAUDE_PROJECT_DIR") or Path(__file__).absolute().parents[2]
+    env_path = Path(root) / ".env"
     if not env_path.exists():
         return
     with open(env_path) as f:

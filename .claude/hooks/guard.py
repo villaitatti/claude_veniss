@@ -16,11 +16,14 @@ import re
 import sys
 from pathlib import Path
 
-ROOT = Path(os.environ.get("CLAUDE_PROJECT_DIR", Path(__file__).resolve().parents[2])).resolve()
+# Workspace root. .claude is a symlink into claude_veniss/, so don't resolve
+# __file__ for the fallback: the root is two levels above the launch path.
+ROOT = Path(os.environ.get("CLAUDE_PROJECT_DIR") or Path(__file__).absolute().parents[2]).resolve()
+REPO = "claude_veniss"
 
-# This repo's own files that live at the root, besides the workspace folders.
-ROOT_DIRS = [".claude", "docs", "queries"]
-ROOT_FILES = ["CLAUDE.md", "README.md", ".mcp.json", ".gitignore", ".env.example", "veniss.code-workspace"]
+# Root entries Claude Code reads: symlinks into the claude_veniss repo.
+ROOT_DIRS = [".claude"]
+ROOT_FILES = ["CLAUDE.md", ".mcp.json"]
 
 # Outside the root, Claude may still use its own state and temp dirs.
 EXTRA_ALLOWED = [Path.home() / ".claude", Path("/tmp"), Path("/private/tmp"), Path(os.environ.get("TMPDIR", "/tmp"))]
@@ -30,10 +33,13 @@ FILE_TOOLS = {"Read", "Edit", "Write", "MultiEdit", "NotebookEdit", "Grep", "Glo
 
 def workspace_folders():
     try:
-        ws = json.loads((ROOT / "veniss.code-workspace").read_text())
-        return [(ROOT / f["path"]).resolve() for f in ws.get("folders", [])]
+        ws_file = next(p for p in (ROOT / REPO / "veniss.code-workspace", ROOT / "veniss.code-workspace") if p.exists())
+        ws = json.loads(ws_file.read_text())
+        folders = [(ws_file.parent / f["path"]).resolve() for f in ws.get("folders", [])]
+        # Never let a folder entry widen scope to the whole root.
+        return [f for f in folders if f != ROOT]
     except Exception:
-        return [(ROOT / p).resolve() for p in ("apps/VeNiss", "metapolis-xdtiler", "researchspace")]
+        return [(ROOT / p).resolve() for p in ("apps/VeNiss", "metapolis-xdtiler", "researchspace", REPO)]
 
 
 def block(reason):

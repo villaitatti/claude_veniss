@@ -1,16 +1,7 @@
-# claude_veniss — workspace-root config repo.
-# The workspace folders are independent git repos with their own .gitignore;
-# this repo never descends into them.
+# claude_veniss — lives in <workspace>/claude_veniss/, symlinked from the root
+# by setup.sh. The workspace folders are separate repos outside this one.
 
-# Subprojects (each manages its own git + .gitignore)
-/apps/
-/metapolis-xdtiler/
-/researchspace/
-
-# Archived material, not part of the workspace
-/\[Deprecated\]/
-
-# Credentials — never commit
+# Credentials — never commit (the real .env sits at the workspace root)
 .env
 .env.local
 .env.*.local
@@ -25,3 +16,5 @@ docs/audit/*
 # Python / OS noise
 __pycache__/
 .DS_Store
+
+*.code-workspace
