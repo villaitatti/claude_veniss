@@ -33,9 +33,9 @@ Each folder has its own `CLAUDE.md`, loaded the first time you touch a file ther
 
 ## Hard rules (all folders)
 - The SPARQL endpoint (`$VENISS_SPARQL_ENDPOINT`) is **production** Blazegraph. No `INSERT`/`DELETE`/`DROP`/`CLEAR`/`UPDATE` without typed user confirmation for each query.
-- SPARQL only through the `sparql` MCP server, never curl.
+- SPARQL through `curl` directly, **not** the `sparql` MCP server. Load credentials by sourcing `claude_veniss/.env` inside the shell command (`set -a; . claude_veniss/.env; set +a`), then use `$VENISS_SPARQL_ENDPOINT`, `$VENISS_SPARQL_USER` and `$VENISS_SPARQL_PASS`. **Never read `.env`** (no Read, `cat`, `grep`, `echo` of values) and never put credentials on the command line in clear text.
 - Never assume a KP or resource config: query for it. When in doubt, ask Blazegraph, not the filesystem.
-- Credentials live in the root `.env` (gitignored; see `claude_veniss/.env.example`). Refer to variable names only and never print, log or embed values. On auth errors, tell the user to check `.env`; don't retry.
+- Credentials live in `claude_veniss/.env` (gitignored; see `claude_veniss/.env.example`). Refer to variable names only and never print, log or embed values. On auth errors, tell the user to check `.env`; don't retry.
 - Never auto-commit, push or merge. The user pushes.
 - No direct SQL (`psql` etc.).
 
