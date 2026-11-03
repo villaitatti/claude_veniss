@@ -2,7 +2,7 @@
   "mcpServers": {
     "sparql": {
       "command": "uv",
-      "args": ["run", "--with", "mcp", ".claude/mcp-sparql/server.py"]
+      "args": ["run", "--with", "mcp>=1.20,<2", ".claude/mcp-sparql/server.py"]
     }
   }
 }
